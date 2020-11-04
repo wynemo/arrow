@@ -59,6 +59,11 @@ class ARROW_EXPORT Uri {
   /// number component.
   int32_t port() const;
 
+  /// The URI host name and port separated by colon, such as "localhost:80", "127.0.0.1:80" or "[::1]:80",
+  /// or the empty string if the URI does not have a host component
+  /// or the host name if the URI does not have a port number component.
+  std::string host_and_port() const;
+
   /// The username specified in the URI.
   std::string username() const;
   /// The password specified in the URI.

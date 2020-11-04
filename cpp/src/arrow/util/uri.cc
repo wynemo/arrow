@@ -130,6 +130,25 @@ std::string Uri::port_text() const { return TextRangeToString(impl_->uri_.portTe
 
 int32_t Uri::port() const { return impl_->port_; }
 
+std::string Uri::host_and_port() const {
+  if (!has_host()) {
+    return "";
+  }
+
+  std::stringstream ss;
+  if (impl_->uri_.hostData.ip6 != nullptr) {
+    ss << "[" << host() << "]";
+  } else {
+    ss << host();
+  }
+
+  if (port() != -1) {
+    ss << ":" << port();
+  }
+
+  return ss.str();
+}
+
 std::string Uri::username() const {
   auto userpass = TextRangeToView(impl_->uri_.userInfo);
   auto sep_pos = userpass.find_first_of(':');
