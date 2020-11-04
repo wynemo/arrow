@@ -812,9 +812,6 @@ Status FlightServerBase::Init(const FlightServerOptions& options) {
   const Location& location = options.location;
   const std::string scheme = location.scheme();
   if (scheme == kSchemeGrpc || scheme == kSchemeGrpcTcp || scheme == kSchemeGrpcTls) {
-    std::stringstream address;
-    address << location.uri_->host() << ':' << location.uri_->port_text();
-
     std::shared_ptr<grpc::ServerCredentials> creds;
     if (scheme == kSchemeGrpcTls) {
       grpc::SslServerCredentialsOptions ssl_options;
@@ -833,7 +830,7 @@ Status FlightServerBase::Init(const FlightServerOptions& options) {
       creds = grpc::InsecureServerCredentials();
     }
 
-    builder.AddListeningPort(address.str(), creds, &impl_->port_);
+    builder.AddListeningPort(location.uri_->host_and_port(), creds, &impl_->port_);
   } else if (scheme == kSchemeGrpcUnix) {
     std::stringstream address;
     address << "unix:" << location.uri_->path();

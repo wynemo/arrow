@@ -876,7 +876,7 @@ class FlightClient::FlightClientImpl {
     std::stringstream grpc_uri;
     std::shared_ptr<grpc::ChannelCredentials> creds;
     if (scheme == kSchemeGrpc || scheme == kSchemeGrpcTcp || scheme == kSchemeGrpcTls) {
-      grpc_uri << location.uri_->host() << ":" << location.uri_->port_text();
+      grpc_uri << location.uri_->host_and_port();
 
       if (scheme == kSchemeGrpcTls) {
         if (options.disable_server_verification) {
