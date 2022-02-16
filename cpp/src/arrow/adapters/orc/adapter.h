@@ -53,6 +53,9 @@ class ARROW_EXPORT ORCFileReader {
  public:
   ~ORCFileReader();
 
+  /// \brief Get ORC reader from inside.
+  liborc::Reader* GetRawORCReader();
+
   /// \brief Creates a new ORC reader
   ///
   /// \param[in] file the data source

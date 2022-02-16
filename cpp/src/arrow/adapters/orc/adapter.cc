@@ -192,6 +192,11 @@ class ORCFileReader::Impl {
     return Init();
   }
 
+  virtual liborc::Reader* GetRawORCReader() {
+    return reader_.get();
+  }
+
+
   Status Init() {
     int64_t nstripes = reader_->getNumberOfStripes();
     stripes_.resize(nstripes);
@@ -513,7 +518,11 @@ class ORCFileReader::Impl {
 
   Result<std::shared_ptr<RecordBatchReader>> NextStripeReader(int64_t batch_size) {
     std::vector<int> empty_vec;
-    return NextStripeReader(batch_size, empty_vec);
+    return NextStripeReader(batch_size, empty_vec); 
+  }
+
+  liborc::Reader* ORCFileReader::GetRawORCReader() {
+    return impl_->GetRawORCReader();
   }
 
  private:
