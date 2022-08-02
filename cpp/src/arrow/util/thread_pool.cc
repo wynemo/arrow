@@ -315,7 +315,7 @@ ThreadPool::ThreadPool()
       shutdown_on_destroy_(true) {
   // Eternal thread pools would produce false leak reports in the vector of
   // atfork handlers.
-#if !(defined(_WIN32) || defined(ADDRESS_SANITIZER) || defined(ARROW_VALGRIND))
+#if !(defined(_WIN32) || defined(ADDRESS_SANITIZER) || defined(ARROW_VALGRIND) || defined(__ppc64__))
   state_->atfork_handler_ = std::make_shared<AtForkHandler>(
       /*before=*/
       [weak_state = std::weak_ptr<ThreadPool::State>(sp_state_)]() {
