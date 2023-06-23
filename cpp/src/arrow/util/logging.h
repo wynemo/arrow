@@ -157,7 +157,7 @@ enum class ArrowLogLevel : int {
 // This is also a null log which does not output anything.
 class ARROW_EXPORT ArrowLogBase {
  public:
-  virtual ~ArrowLogBase() noexcept(false) {}
+  virtual ~ArrowLogBase() {}
 
   virtual bool IsEnabled() const { return false; }
 
@@ -176,7 +176,7 @@ class ARROW_EXPORT ArrowLogBase {
 class ARROW_EXPORT ArrowLog : public ArrowLogBase {
  public:
   ArrowLog(const char* file_name, int line_number, ArrowLogLevel severity);
-  ~ArrowLog() noexcept(false) override;
+  ~ArrowLog() override;
 
   /// Return whether or not current logging instance is enabled.
   ///
