@@ -67,10 +67,6 @@ class CerrLog {
     if (has_logged_) {
       std::cerr << std::endl;
     }
-    if (severity_ == ArrowLogLevel::ARROW_FATAL) {
-      PrintBackTrace();
-      std::abort();
-    }
   }
 
   std::ostream& Stream() {
