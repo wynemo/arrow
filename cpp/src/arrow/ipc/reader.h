@@ -203,6 +203,8 @@ class ARROW_EXPORT RecordBatchFileReader
   /// \brief Computes the total number of rows in the file.
   virtual Result<int64_t> CountRows() = 0;
 
+  virtual Result<int64_t> RecordBatchCountRows(int i) = 0;
+
   /// \brief Begin loading metadata for the desired batches into memory.
   ///
   /// This method will also begin loading all dictionaries messages into memory.
