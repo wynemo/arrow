@@ -1240,6 +1240,23 @@ class RecordBatchFileReaderImpl : public RecordBatchFileReader {
     return total;
   }
 
+  Result<int64_t> RecordBatchCountRows(int i) override {
+    DCHECK_GE(i, 0);
+    DCHECK_LT(i, num_record_batches());
+    ARROW_ASSIGN_OR_RAISE(auto outer_message,
+                          ReadMessageFromBlock(GetRecordBatchBlock(i)));
+    auto metadata = outer_message->metadata();
+    const flatbuf::Message* message = nullptr;
+    RETURN_NOT_OK(
+        internal::VerifyMessage(metadata->data(), metadata->size(), &message));
+    auto batch = message->header_as_RecordBatch();
+    if (batch == nullptr) {
+      return Status::IOError(
+          "Header-type of flatbuffer-encoded Message is not RecordBatch.");
+    }
+    return batch->length();
+  }
+
   Status Open(const std::shared_ptr<io::RandomAccessFile>& file, int64_t footer_offset,
               const IpcReadOptions& options) {
     owned_file_ = file;
